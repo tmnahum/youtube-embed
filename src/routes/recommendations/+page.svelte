@@ -87,7 +87,7 @@
     <p class="mt-4">
         You can opt out of analytics by getting ublock origin, and adding analytics.cloudflare-473.workers.dev and umami.ttools.io to your blocklist.
         
-        and/or adding umami.disabled=1 to your localstorage (I have developed a simple extension to set this for all websites, it is currently under review by the chrome & firefox extension stores)
+        and/or adding umami.disabled=1 to your localstorage
     </p>
     <br>
     
