@@ -1,6 +1,7 @@
 import { browser} from '$app/environment';
 
 
+// todo: add posthog maybe, can keep redaction (https://posthog.com/tutorials/web-redact-properties)
 
 //  ----   code is mirrored in app.html   ----
 

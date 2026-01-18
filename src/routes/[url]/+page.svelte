@@ -5,15 +5,14 @@
 	import ViewsLikesDislikes from './ViewsLikesDislikes.svelte';
 	import { sendAnalyticsEvent } from '$lib/analytics';
 
-	let videoId = $page.url.searchParams.get('v') as string; //todo: maybe get rid of the as string
-
-	// console.log(videoId)
+	let videoId = $page.url.searchParams.get('v') as string; 
 	
+	const API_BASE = "http://localhost:8787"
 
 	const query = createQuery({
 		queryKey: ['snippet', videoId],
 		queryFn: () => {
-			return fetch(`https://yt.lemnoslife.com/noKey/videos?part=snippet&id=${videoId}`)
+			return fetch(`${API_BASE}/videos?part=snippet&id=${videoId}`)
 				.then((r) => r.json())
 				.then((r) => {
                     console.log("Youtube API Snippet Result", r)
@@ -26,7 +25,7 @@
 
     $: title = $query.data?.title
 
-
+    // video url is hashed for user privacy
 	onMount(() => {
 		sendAnalyticsEvent("loadedVideoPage");
 		setTimeout(() => {
@@ -59,7 +58,7 @@
         {#if $query.isLoading}
 		    Loading Title...
         {:else if $query.isError}
-            Error fetching title: {$query.error.message}
+            <!-- Error fetching title: {$query.error.message} -->
         {:else if $query.isSuccess}
             {title}
         {/if}
