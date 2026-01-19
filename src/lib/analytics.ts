@@ -80,6 +80,8 @@ export async function sendAnalyticsEvent(eventName: string, details?: string) {
 
     const {redactedPageTitle, redactedPageUrl, redactedRefererUrl} = await getRedactedData();
 
+    if (typeof umami === 'undefined') return;
+
     umami.track(props => {
         props.title = redactedPageTitle;
         props.url = redactedPageUrl;

@@ -1,5 +1,6 @@
 
 				// copied from mdn docs
+				/** @param {string} message */
 				async function hashMessage(message) {
 					const msgUint8 = new TextEncoder().encode(message); // encode as (utf-8) Uint8Array
 					const hashBuffer = await crypto.subtle.digest("SHA-256", msgUint8); // hash the message
@@ -17,6 +18,7 @@
 					const redactedPageTitle = "hashed-" + await hashMessage(pageTitle)
 				
 					// hash query params  + redact past #
+					/** @param {URLSearchParams} searchParams */
 					async function redactSearchParams(searchParams) {
 						for (const [key, value] of searchParams.entries()) {
 							searchParams.set(key, await hashMessage(value))
@@ -39,8 +41,9 @@
 				
 				async function trackRedacted(){
 					const {redactedPageTitle, redactedPageUrl, redactedRefererUrl} = await getRedactedData();
-					
+
 					console.log("tracking redacted")
+					if (typeof umami === 'undefined') return;
 					umami.track(props => {
 						props.title = redactedPageTitle;
 						props.url = redactedPageUrl;
