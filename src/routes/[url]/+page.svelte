@@ -6,6 +6,8 @@
 	import { sendAnalyticsEvent } from '$lib/analytics';
 	import YouTubePlayer from '$lib/components/YouTubePlayer.svelte';
 	import VideoTools from '$lib/components/VideoTools.svelte';
+	import SponsorSkip from '$lib/components/SponsorSkip.svelte';
+	import SponsorSkipButton from '$lib/components/SponsorSkipButton.svelte';
 
 	let videoId = $page.url.searchParams.get('v') as string; 
 	
@@ -44,7 +46,10 @@
 
 <main class="max-w-5xl mx-auto p-2">
     <br>
-	<YouTubePlayer {videoId} />
+	<div class="relative">
+		<YouTubePlayer {videoId} />
+		<SponsorSkipButton />
+	</div>
     <h1 class="text-xl font-bold">
         {#if $query.isLoading}
 		    Loading Title...
@@ -60,7 +65,11 @@
 
     <br>
 
-    <VideoTools />
+    <VideoTools>
+		{#snippet dropdown()}
+			<SponsorSkip {videoId} />
+		{/snippet}
+	</VideoTools>
 
     <a
 		href="https://youtube.ttools.io"

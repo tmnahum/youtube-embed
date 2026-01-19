@@ -104,4 +104,64 @@ Commit: 74be604
 - URL param format: ?tools=silence (comma-separated for multiple)
 - SponsorBlock enabled by default (no URL param needed per PRD)
 
-Commit: 5d933fd
+Commit: 605ddce
+
+---
+
+## Phase 2: SponsorBlock (Skip Sponsors) - COMPLETED
+
+### What was done:
+- Created `src/lib/types/sponsorBlock.ts` - Type definitions
+  - SponsorSegment, SponsorCategory, SponsorBlockSettings types
+  - ALL_CATEGORIES, CATEGORY_LABELS constants
+  - DEFAULT_SETTINGS with enabled=true, mode='manual', skipCategories=['sponsor', 'selfpromo']
+  - STORAGE_KEY for localStorage
+
+- Extended `src/lib/stores/playerStore.ts` - Player actions registration
+  - Added registerPlayerActions/unregisterPlayerActions pattern
+  - Exposed seekTo(), setPlayerPlaybackRate(), getPlayerPlaybackRate() via registered actions
+  - Allows skip features to control player without direct component reference
+
+- Created `src/lib/stores/sponsorStore.ts` - Sponsor skip state
+  - currentSponsorSegment store for overlay button visibility
+  - registerSkipCallback/triggerSkip pattern for manual skip button
+
+- Created `src/lib/components/SponsorSkip.svelte` - Main SponsorBlock logic
+  - Fetches segments from SponsorBlock API via TanStack Query
+  - Handles 404 (no segments) gracefully
+  - Settings persistence with localStorage + validation
+  - Skip logic in $effect reacting to playerStore.currentTime
+  - Auto mode: seeks past segment immediately (with recently-skipped tracking to prevent re-triggering)
+  - Manual mode: exposes current segment to overlay button via sponsorStore
+  - Analytics events for skip actions
+
+- Created `src/lib/components/SponsorSettings.svelte` - Settings UI
+  - Mode toggle: Auto-skip / Show button
+  - Category checkboxes for all 8 SponsorBlock categories
+  - Emerald/gray theming matching app aesthetic
+
+- Created `src/lib/components/SponsorSkipButton.svelte` - Player overlay button
+  - Positioned bottom-right of player via CSS absolute positioning
+  - Only visible when in sponsor segment (manual mode)
+  - Shows category label (e.g., "Skip sponsor →")
+  - Semi-transparent background with hover state
+
+- Updated `src/lib/components/YouTubePlayer.svelte`
+  - Registers player actions on mount
+  - Unregisters on destroy
+
+- Integrated into `src/routes/[url]/+page.svelte`
+  - Added relative container around player for overlay positioning
+  - SponsorSkip passed as dropdown snippet to VideoTools
+  - SponsorSkipButton rendered inside player container
+
+### Verification:
+- pnpm check passes with 0 errors
+- pnpm build succeeds
+- Code review addressed: segment tracking to prevent re-triggering, settings validation
+
+### Notes:
+- Enabled by default in manual mode per PRD
+- Uses Svelte 5 runes ($state, $effect, $derived) throughout
+- Query enabled captures initial settings.enabled value (acceptable since default=true)
+- SponsorSkipActive component deferred (not needed for MVP)

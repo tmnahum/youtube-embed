@@ -56,3 +56,32 @@ export function resetPlayerStore(): void {
 	playbackRate.set(1);
 	playerState.set('unstarted');
 }
+
+// Player actions - registered by YouTubePlayer component
+export type PlayerActions = {
+	seekTo: (seconds: number) => void;
+	setPlaybackRate: (rate: number) => void;
+	getPlaybackRate: () => number;
+};
+
+let playerActions: PlayerActions | null = null;
+
+export function registerPlayerActions(actions: PlayerActions): void {
+	playerActions = actions;
+}
+
+export function unregisterPlayerActions(): void {
+	playerActions = null;
+}
+
+export function seekTo(seconds: number): void {
+	playerActions?.seekTo(seconds);
+}
+
+export function setPlayerPlaybackRate(rate: number): void {
+	playerActions?.setPlaybackRate(rate);
+}
+
+export function getPlayerPlaybackRate(): number {
+	return playerActions?.getPlaybackRate() ?? 1;
+}

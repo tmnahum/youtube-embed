@@ -7,7 +7,9 @@
 		playerState,
 		ytStateToString,
 		notifyTimeSubscribers,
-		resetPlayerStore
+		resetPlayerStore,
+		registerPlayerActions,
+		unregisterPlayerActions
 	} from '$lib/stores/playerStore';
 
 	interface Props {
@@ -155,6 +157,11 @@
 
 	onMount(async () => {
 		resetPlayerStore();
+		registerPlayerActions({
+			seekTo,
+			setPlaybackRate,
+			getPlaybackRate
+		});
 		await loadYouTubeAPI();
 		apiReady = true;
 		initPlayer();
@@ -162,6 +169,7 @@
 
 	onDestroy(() => {
 		stopTimePolling();
+		unregisterPlayerActions();
 		if (player && typeof player.destroy === 'function') {
 			player.destroy();
 		}
