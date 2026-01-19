@@ -69,3 +69,39 @@ Commit: 87e235f
 - Pre-existing setTimeout memory leak in +page.svelte noted but not fixed (out of scope)
 
 Commit: 74be604
+
+---
+
+## Phase 1: Minimal UI Shell - COMPLETED
+
+### What was done:
+- Created `src/lib/components/VideoTools.svelte` - Dropdown container
+  - Collapsible "▸ video tools" / "▾ video tools" toggle
+  - Uses Svelte 5 runes ($state) and snippets ($props with Snippet type)
+  - Accepts `dropdown` and `active` snippets for features to populate
+  - Empty state shows "No tools available yet"
+  - Emerald link styling matching existing aesthetic
+
+- Created `src/lib/utils/videoToolsParams.ts` - URL param helpers
+  - getActiveTools(url): string[] - parse ?tools= param
+  - updateToolsParam(url, toolName, active) - add/remove tool from URL
+  - isToolActive(url, toolName): boolean - check if tool is active
+  - Pure functions that accept URL (not reactive store access)
+
+- Integrated VideoTools into `src/routes/[url]/+page.svelte`
+  - Replaced "more tools" link with VideoTools component
+  - Positioned above "about" link
+
+### Verification:
+- pnpm check passes with 0 errors
+- pnpm build succeeds
+- Dropdown expands/collapses on click
+- URL param helpers work correctly
+
+### Notes:
+- Features will add their own toggles via the dropdown snippet
+- Features will add their own active UI via the active snippet
+- URL param format: ?tools=silence (comma-separated for multiple)
+- SponsorBlock enabled by default (no URL param needed per PRD)
+
+Commit: 5d933fd

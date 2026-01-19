@@ -5,6 +5,7 @@
 	import ViewsLikesDislikes from './ViewsLikesDislikes.svelte';
 	import { sendAnalyticsEvent } from '$lib/analytics';
 	import YouTubePlayer from '$lib/components/YouTubePlayer.svelte';
+	import VideoTools from '$lib/components/VideoTools.svelte';
 
 	let videoId = $page.url.searchParams.get('v') as string; 
 	
@@ -59,15 +60,13 @@
 
     <br>
 
-    <a 
-		href="https://youtube.ttools.io" 
+    <VideoTools />
+
+    <a
+		href="https://youtube.ttools.io"
 		target="_blank" rel="noreferrer noopener"
 		class="text-emerald-400 underline"
-	> about </a> <br>
-    <a 
-		href="https://www.ttools.io" target="_blank" rel="noreferrer noopener"
-		class="text-emerald-400 underline"
-	> more tools </a>
+	> about </a>
 </main>
 
 <svelte:head>
