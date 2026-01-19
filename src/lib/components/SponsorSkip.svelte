@@ -85,11 +85,12 @@
 	}
 
 	// Fetch segments from SponsorBlock API
+	// Must specify all categories we want - API defaults to only sponsor+selfpromo
 	const sponsorQuery = createQuery({
 		queryKey: ['sponsorblock', videoId],
 		queryFn: async (): Promise<SponsorSegment[]> => {
 			const res = await fetch(
-				`https://sponsor.ajay.app/api/skipSegments?videoID=${videoId}`
+				`https://sponsor.ajay.app/api/skipSegments?videoID=${videoId}&categories=${encodeURIComponent(JSON.stringify([...ALL_CATEGORIES]))}`
 			);
 			if (res.status === 404) {
 				// No segments found - not an error
