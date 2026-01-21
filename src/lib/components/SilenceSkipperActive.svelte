@@ -62,7 +62,7 @@
 	<!-- Header with time saved and disable button -->
 	<div class="flex items-center justify-between">
 		<span class="text-emerald-400">
-			{formatTime(timeSaved.original)} → {formatTime(timeSaved.adjusted)}
+			Duration: {formatTime(timeSaved.original)} → {formatTime(timeSaved.adjusted)}
 			<span class="text-emerald-300">(-{formatTime(timeSaved.saved)})</span>
 		</span>
 		<button class="text-gray-400 hover:text-gray-300 text-xs" onclick={onDisable}> disable </button>
