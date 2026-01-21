@@ -15,7 +15,7 @@
 
 	// Query for segment count display (same query key as monitor, will share cache)
 	const sponsorQuery = createQuery({
-		queryKey: ['sponsorblock', videoId],
+		get queryKey() { return ['sponsorblock', videoId]; },
 		queryFn: async (): Promise<SponsorSegment[]> => {
 			const res = await fetch(
 				`https://sponsor.ajay.app/api/skipSegments?videoID=${videoId}&categories=${encodeURIComponent(JSON.stringify([...ALL_CATEGORIES]))}`

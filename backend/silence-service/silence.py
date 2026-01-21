@@ -33,7 +33,7 @@ def validate_video_id(video_id: str) -> bool:
     return bool(re.match(r"^[a-zA-Z0-9_-]{11}$", video_id))
 
 
-def extract_silence_segments(video_id: str) -> tuple[list[dict], float]:
+def extract_silence_segments(video_id: str) -> tuple[list[list], float]:
     """
     Download audio and detect silence segments.
 
@@ -137,9 +137,9 @@ def extract_silence_segments(video_id: str) -> tuple[list[dict], float]:
             seek_step=SEEK_STEP_MS,
         )
 
-        # Format segments
+        # Format segments as compact arrays: [start_ms, end_ms, duration_ms]
         segments = [
-            {"start_ms": start, "end_ms": end, "duration_ms": end - start}
+            [start, end, end - start]
             for start, end in silent_segments
         ]
 

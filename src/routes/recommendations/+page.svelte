@@ -107,10 +107,16 @@
         font-size: 1.5rem;
     }
     a {
-        @apply text-emerald-400 underline;
+        color: #34d399;
+        text-decoration: underline;
     }
     .quote {
-        @apply rounded-md px-1 py-0 w-fit;
+        border-radius: 0.375rem;
+        padding-left: 0.25rem;
+        padding-right: 0.25rem;
+        padding-top: 0;
+        padding-bottom: 0;
+        width: fit-content;
         background-color: rgb(48, 48, 48);
     }
 </style>

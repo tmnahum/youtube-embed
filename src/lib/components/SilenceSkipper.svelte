@@ -126,7 +126,7 @@
 
 	// Status polling query - uses data to control polling (not external state)
 	const statusQuery = createQuery({
-		queryKey: ['silence-status', videoId],
+		get queryKey() { return ['silence-status', videoId]; },
 		queryFn: async (): Promise<SilenceResponse> => {
 			const res = await fetch(`${SILENCE_API_URL}/silence/status?v=${videoId}`);
 			if (!res.ok) throw new Error('Failed to fetch status');
@@ -179,7 +179,7 @@
 		const { timeBeforeSkipping, timeAfterSkipping, minSkipMs } = settings;
 		const minMargins = timeBeforeSkipping + timeAfterSkipping;
 		return segments.filter(
-			(seg) => seg.duration_ms >= minSkipMs && seg.duration_ms > minMargins
+			(seg) => seg[2] >= minSkipMs && seg[2] > minMargins
 		);
 	});
 
@@ -189,8 +189,8 @@
 		const currentMs = $currentTime * 1000;
 		const { timeBeforeSkipping, timeAfterSkipping } = settings;
 		return filteredSegments.find((seg) => {
-			const actionStart = seg.start_ms + timeBeforeSkipping;
-			const actionEnd = seg.end_ms - timeAfterSkipping;
+			const actionStart = seg[0] + timeBeforeSkipping;
+			const actionEnd = seg[1] - timeAfterSkipping;
 			return currentMs >= actionStart && currentMs < actionEnd;
 		}) ?? null;
 	});
@@ -199,10 +199,10 @@
 	$effect(() => {
 		if (!enabled || settings.mode !== 'skip' || !currentSegment) return;
 
-		const segmentId = `${currentSegment.start_ms}-${currentSegment.end_ms}`;
+		const segmentId = `${currentSegment[0]}-${currentSegment[1]}`;
 		if (segmentId === recentlySkippedSegmentId || !canSeek()) return;
 
-		const skipEndMs = currentSegment.end_ms - settings.timeAfterSkipping;
+		const skipEndMs = currentSegment[1] - settings.timeAfterSkipping;
 		const didSeek = seekTo(skipEndMs / 1000);
 		if (didSeek) {
 			markSeek();

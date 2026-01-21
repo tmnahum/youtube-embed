@@ -82,7 +82,7 @@
             Check if the youtube channel is mirrored on a youtube competitor, 
             such as 
             <a href="https://lbry.com">LBRY</a>/<a href="https://odysee.com">Odysee</a>, 
-            <a href="">Rumble</a>, 
+            <a href="https://rumble.com">Rumble</a>, 
             or 
             <a href="https://nebula.tv/">Nebula</a>.
         </li>
@@ -120,8 +120,8 @@
         data-page-title="Methods To Get Around Youtube Adblock Ban"
         data-theme="dark"
     >
-        
-    
+    </div>
+
     <br class="mb-[40vh]">
     
     
@@ -139,24 +139,19 @@
 
 <style>
     main {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
     }
     a {
-        @apply text-emerald-400 underline;
-    }
-    .quote {
-        @apply rounded-md px-1 py-0 w-fit;
-        background-color: rgb(48, 48, 48);
+        color: #34d399;
+        text-decoration: underline;
     }
     q {
-        @apply rounded-md px-0 py-0 w-fit;
+        border-radius: 0.375rem;
+        padding: 0;
+        width: fit-content;
         background-color: rgb(60, 60, 60);
     }
-    main {
-        font-size: 1.4rem;
-
-    }
     ol > br {
-        @apply mt-1;
+        margin-top: 0.25rem;
     }
 </style>

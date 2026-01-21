@@ -13,10 +13,10 @@
 
 	// Calculate time saved based on current settings
 	function calculateTimeSaved(): { original: number; adjusted: number; saved: number } {
-		const validSegments = segments.filter((s) => s.duration_ms >= settings.minSkipMs);
+		const validSegments = segments.filter((s) => s[2] >= settings.minSkipMs);
 		const totalSkippedMs = validSegments.reduce((sum, seg) => {
 			const skipDuration =
-				seg.duration_ms - settings.timeBeforeSkipping - settings.timeAfterSkipping;
+				seg[2] - settings.timeBeforeSkipping - settings.timeAfterSkipping;
 			return sum + Math.max(0, skipDuration);
 		}, 0);
 
@@ -152,6 +152,6 @@
 
 	<!-- Segment count -->
 	<div class="text-gray-500 text-xs">
-		{segments.filter((s) => s.duration_ms >= settings.minSkipMs).length} silence segments found
+		{segments.filter((s) => s[2] >= settings.minSkipMs).length} silence segments found
 	</div>
 </div>

@@ -1,10 +1,7 @@
 // Silence detection API types
 
-export type SilenceSegment = {
-	start_ms: number;
-	end_ms: number;
-	duration_ms: number;
-};
+// Compact array format: [start_ms, end_ms, duration_ms]
+export type SilenceSegment = [number, number, number];
 
 export type SilenceMode = 'skip' | 'speed';
 
